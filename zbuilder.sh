@@ -70,13 +70,13 @@ echo "[✓] ISO + checksum ready"
 : "${IA_ACCESS_KEY:?IA_ACCESS_KEY is not set}" 
 : "${IA_SECRET_KEY:?IA_SECRET_KEY is not set}"
 
-export AWS_ACCESS_KEY_ID="${IA_ACCESS_KEY}"
-export AWS_SECRET_ACCESS_KEY="${IA_SECRET_KEY}"
+export IAS3_ACCESS="${IA_ACCESS_KEY}"
+export IAS3_SECRET="${IA_SECRET_KEY}"
 
 # ── Archive upload ───────────────────────────────────────
 echo "[*] Uploading to Internet Archive..."
 
-ia upload "$ITEM_NAME" \
+ia --config-file=/dev/null upload "$ITEM_NAME" \
   "$ISO_NAME" \
   "$CHECKSUM_NAME" \
   --metadata="title=Zodium $DISTRO $TYPE" \
