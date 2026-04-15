@@ -70,8 +70,8 @@ echo "[✓] ISO + checksum ready"
 : "${IA_ACCESS_KEY:?IA_ACCESS_KEY is not set}" 
 : "${IA_SECRET_KEY:?IA_SECRET_KEY is not set}"
 
-export IAS3_ACCESS="${IA_ACCESS_KEY}"
-export IAS3_SECRET="${IA_SECRET_KEY}"
+export IA_ACCESS_KEY_ID="${IA_ACCESS_KEY}"
+export IA_SECRET_ACCESS_KEY="${IA_SECRET_KEY}"
 
 # ── Archive upload ───────────────────────────────────────
 echo "[*] Uploading to Internet Archive..."
