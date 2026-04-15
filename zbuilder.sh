@@ -80,7 +80,7 @@ ia --config-file=/dev/null upload "$ITEM_NAME" \
   "$ISO_NAME" \
   "$CHECKSUM_NAME" \
   --metadata="title=Zodium $DISTRO $TYPE" \
-  --metadata="mediatype=software"
+  --metadata="mediatype=software" --retries=5
 
 echo "[✓] Upload complete"
 echo "👉 https://archive.org/details/$ITEM_NAME"
