@@ -2,10 +2,37 @@ name: Build ISOs
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '23 2 * * *'
+    - cron: '47 7 * * *'
+    - cron: '11 13 * * *'
+    - cron: '37 19 * * *'
 
 jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Keepalive
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          TODAY=$(date -u +"%Y-%m-%d")
+          LAST=$(cat .keepalive 2>/dev/null | grep -oP '^\d{4}-\d{2}-\d{2}' || echo "")
+          if [ "$LAST" = "$TODAY" ]; then
+            echo "Keepalive already ran today ($TODAY), skipping."
+            exit 0
+          fi
+          date -u +"%Y-%m-%d %H:%M:%S" > .keepalive
+          git add .keepalive
+          git diff --staged --quiet || git commit -m "chore: keepalive $TODAY"
+          git push || true
+
   build:
     runs-on: ubuntu-latest
+    needs: keepalive
 
     strategy:
       fail-fast: false
