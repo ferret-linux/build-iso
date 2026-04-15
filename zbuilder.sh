@@ -44,7 +44,7 @@ echo "    Image  : $IMAGE"
 sudo bluebuild generate-iso \
   --platform=linux/amd64 \
   --iso-name="$ISO_NAME" \
-  --secure-boot-url="https://github.com/zodium-project/zcore-bootc/blob/stable/files/mok-file/etc/pki/akmods/certs/zodium-mok.der" \
+  --secure-boot-url="https://github.com/zodium-project/zcore-bootc/raw/refs/heads/stable/files/mok-file/etc/pki/akmods/certs/zodium-mok.der" \
   --enrollment-password="zodium" \
   --variant="kinoite" \
   --verbose \
@@ -67,6 +67,9 @@ fi
 echo "[✓] ISO + checksum ready"
 
 # ── Internet Archive auth (correct IAS3 way) ──
+: "${IA_ACCESS_KEY:?IA_ACCESS_KEY is not set}" 
+: "${IA_SECRET_KEY:?IA_SECRET_KEY is not set}"
+
 export AWS_ACCESS_KEY_ID="${IA_ACCESS_KEY}"
 export AWS_SECRET_ACCESS_KEY="${IA_SECRET_KEY}"
 
