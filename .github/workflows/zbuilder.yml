@@ -1,0 +1,40 @@
+name: Build ISOs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [zcore, zynori, zykron]
+        type: [bootc, nvidia]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y curl podman
+
+      # ── Install BlueBuild ───────────────────────────────
+      - name: Install BlueBuild
+        run: |
+          podman run --pull always --rm ghcr.io/blue-build/cli:latest-installer | bash
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      # ── Make script executable ──────────────────────────
+      - name: Prepare script
+        run: chmod +x zbuilder.sh
+
+      # ── Build ISO ───────────────────────────────────────
+      - name: Build ISO
+        run: |
+          ./zbuilder.sh \
+            --distro ${{ matrix.distro }} \
+            --type ${{ matrix.type }}
