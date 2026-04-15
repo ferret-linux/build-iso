@@ -80,7 +80,7 @@ ia --config-file=/dev/null delete "$ITEM_NAME" --all 2>/dev/null || true
 # ── Archive upload ───────────────────────────────────────
 echo "[*] Uploading to Internet Archive..."
 
-sleep $(( RANDOM % 90 + 90 ))
+sleep $(( RANDOM % 360 + 120 ))
 ia --config-file=/dev/null upload "$ITEM_NAME" \
   "$ISO_NAME" \
   "$CHECKSUM_NAME" \
