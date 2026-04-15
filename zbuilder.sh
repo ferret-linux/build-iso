@@ -23,7 +23,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# ── Validate (only presence, not values) ─────────────────
+# ── Validate ─────────────────────────────────────────────
 if [[ -z "$TYPE" || -z "$DISTRO" ]]; then
   echo "Usage: $0 --type <type> --distro <distro>"
   exit 1
@@ -32,11 +32,13 @@ fi
 # ── Variables ────────────────────────────────────────────
 IMAGE="ghcr.io/zodium-project/${DISTRO}-${TYPE}"
 ISO_NAME="${DISTRO}-${TYPE}.iso"
+CHECKSUM_NAME="${ISO_NAME}-CHECKSUM"
+ITEM_NAME="zodium-${DISTRO}-${TYPE}"
 
 echo "[*] Building ISO"
-echo "    Distro: $DISTRO"
-echo "    Type:   $TYPE"
-echo "    Image:  $IMAGE"
+echo "    Distro : $DISTRO"
+echo "    Type   : $TYPE"
+echo "    Image  : $IMAGE"
 
 # ── Build ────────────────────────────────────────────────
 sudo bluebuild generate-iso \
@@ -48,4 +50,34 @@ sudo bluebuild generate-iso \
   --verbose \
   image "$IMAGE"
 
-echo "[✓] Done: $ISO_NAME"
+echo "[✓] Build complete"
+
+# ── Verify output ───────────────────────────────────────
+if [[ ! -f "$ISO_NAME" ]]; then
+  echo "[✗] ISO not found: $ISO_NAME"
+  exit 1
+fi
+
+# ── Ensure checksum exists (BlueBuild already does it) ──
+if [[ ! -f "$CHECKSUM_NAME" ]]; then
+  echo "[*] Generating checksum..."
+  sha256sum "$ISO_NAME" > "$CHECKSUM_NAME"
+fi
+
+echo "[✓] ISO + checksum ready"
+
+# ── Archive upload ───────────────────────────────────────
+echo "[*] Uploading to Internet Archive..."
+
+# required env vars from GitHub Secrets
+: "${IA_ACCESS_KEY:?Missing IA_ACCESS_KEY}"
+: "${IA_SECRET_KEY:?Missing IA_SECRET_KEY}"
+
+ia upload "$ITEM_NAME" \
+  "$ISO_NAME" \
+  "$CHECKSUM_NAME" \
+  --metadata="title=Zodium $DISTRO $TYPE" \
+  --metadata="mediatype=software"
+
+echo "[✓] Upload complete"
+echo "👉 https://archive.org/details/$ITEM_NAME"
