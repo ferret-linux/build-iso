@@ -28,6 +28,14 @@ jobs:
           podman run --pull always --rm ghcr.io/blue-build/cli:latest-installer | bash
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+      # ── Install Internet Archive CLI (FIX) ──────────────
+      - name: Install Archive CLI
+        run: |
+          python3 -m pip install --user --upgrade pip
+          python3 -m pip install --user internetarchive
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          ia --help
+
       # ── Make script executable ──────────────────────────
       - name: Prepare script
         run: chmod +x zbuilder.sh
