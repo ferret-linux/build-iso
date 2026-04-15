@@ -66,18 +66,9 @@ fi
 
 echo "[✓] ISO + checksum ready"
 
-# ── Configure Internet Archive auth ─────────────────────
-# required env vars from GitHub Secrets
-: "${IA_ACCESS_KEY:?Missing IA_ACCESS_KEY}"
-: "${IA_SECRET_KEY:?Missing IA_SECRET_KEY}"
-
-mkdir -p ~/.config/internetarchive
-
-cat > ~/.config/internetarchive/ia.ini <<EOF
-[general]
-access_key = ${IA_ACCESS_KEY}
-secret_key = ${IA_SECRET_KEY}
-EOF
+# ── Internet Archive auth (correct IAS3 way) ──
+export AWS_ACCESS_KEY_ID="${IA_ACCESS_KEY}"
+export AWS_SECRET_ACCESS_KEY="${IA_SECRET_KEY}"
 
 # ── Archive upload ───────────────────────────────────────
 echo "[*] Uploading to Internet Archive..."
