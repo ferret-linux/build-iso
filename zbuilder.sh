@@ -66,13 +66,15 @@ fi
 
 echo "[✓] ISO + checksum ready"
 
-# ── Internet Archive auth (correct IAS3 way) ──
+# ── Internet Archive auth (correct IAS3 way) ────────────
 : "${IA_ACCESS_KEY:?IA_ACCESS_KEY is not set}" 
 : "${IA_SECRET_KEY:?IA_SECRET_KEY is not set}"
 
 export IA_ACCESS_KEY_ID="${IA_ACCESS_KEY}"
 export IA_SECRET_ACCESS_KEY="${IA_SECRET_KEY}"
 
+# ── Random Sleep to prevent spam/rate-limit ──────────────
+sleep $(( RANDOM % 540 + 60 ))
 # ── Cleanup old files ────────────────────────────────────
 echo "[*] Cleaning up old files from IA item..."
 ia --config-file=/dev/null delete "$ITEM_NAME" --all 2>/dev/null || true
@@ -80,7 +82,6 @@ ia --config-file=/dev/null delete "$ITEM_NAME" --all 2>/dev/null || true
 # ── Archive upload ───────────────────────────────────────
 echo "[*] Uploading to Internet Archive..."
 
-sleep $(( RANDOM % 360 + 120 ))
 ia --config-file=/dev/null upload "$ITEM_NAME" \
   "$ISO_NAME" \
   "$CHECKSUM_NAME" \
