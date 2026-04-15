@@ -66,12 +66,21 @@ fi
 
 echo "[✓] ISO + checksum ready"
 
-# ── Archive upload ───────────────────────────────────────
-echo "[*] Uploading to Internet Archive..."
-
+# ── Configure Internet Archive auth ─────────────────────
 # required env vars from GitHub Secrets
 : "${IA_ACCESS_KEY:?Missing IA_ACCESS_KEY}"
 : "${IA_SECRET_KEY:?Missing IA_SECRET_KEY}"
+
+mkdir -p ~/.config/internetarchive
+
+cat > ~/.config/internetarchive/ia.ini <<EOF
+[general]
+access_key = ${IA_ACCESS_KEY}
+secret_key = ${IA_SECRET_KEY}
+EOF
+
+# ── Archive upload ───────────────────────────────────────
+echo "[*] Uploading to Internet Archive..."
 
 ia upload "$ITEM_NAME" \
   "$ISO_NAME" \
