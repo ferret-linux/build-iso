@@ -1,4 +1,4 @@
-name: Build ISOs
+name: Build & Upload ISO's
 
 on:
   workflow_dispatch:
@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: 1
       matrix:
         distro: [zcore, zynori, zykron]
         type: [bootc, nvidia]
