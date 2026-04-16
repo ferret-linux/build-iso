@@ -85,10 +85,6 @@ ia --config-file=/dev/null upload "$ITEM_NAME" \
   "$CHECKSUM_NAME" \
   --metadata="title=$DISTRO $TYPE" \
   --metadata="mediatype=software" \
-  --retries=5 \
-  --retries-sleep=30 \
-  --chunk-size=67108864 \
-  --timeout=3600
-
+  --retries=5
 echo "[✓] Upload complete"
 echo "👉 https://archive.org/details/$ITEM_NAME"
