@@ -33,7 +33,7 @@ fi
 IMAGE="ghcr.io/zodium-project/${DISTRO}-${TYPE}"
 ISO_NAME="${DISTRO}-${TYPE}.iso"
 CHECKSUM_NAME="${ISO_NAME}-CHECKSUM"
-ITEM_NAME="zodium-${DISTRO}-${TYPE}"
+ITEM_NAME="${DISTRO}-${TYPE}"
 
 echo "[*] Building ISO"
 echo "    Distro : $DISTRO"
