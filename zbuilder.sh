@@ -100,7 +100,6 @@ r = item.upload(
     retries_sleep=30,
     request_kwargs={"timeout": 9000},
     checksum=True,
-    overwrite=True,
     verbose=True,
 )
 
