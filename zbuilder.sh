@@ -80,11 +80,37 @@ ia --config-file=/dev/null delete "$ITEM_NAME" --all 2>/dev/null || true
 # ── Archive upload ───────────────────────────────────────
 echo "[*] Uploading to Internet Archive..."
 
-ia --config-file=/dev/null upload "$ITEM_NAME" \
-  "$ISO_NAME" \
-  "$CHECKSUM_NAME" \
-  --metadata="title=$DISTRO $TYPE" \
-  --metadata="mediatype=software" \
-  --retries=5
+python3 - <<EOF
+import internetarchive as ia
+import os
+
+access = os.environ["IA_ACCESS_KEY"]
+secret = os.environ["IA_SECRET_KEY"]
+item_name = "${ITEM_NAME}"
+distro = "${DISTRO}"
+type_ = "${TYPE}"
+iso = "${ISO_NAME}"
+checksum = "${CHECKSUM_NAME}"
+
+config = {"s3": {"access": access, "secret": secret}}
+
+session = ia.get_session(config=config)
+item = session.get_item(item_name)
+
+r = item.upload(
+    [iso, checksum],
+    metadata={"title": f"{distro} {type_}", "mediatype": "software"},
+    retries=5,
+    retries_sleep=30,
+    request_kwargs={"timeout": 3600},
+    checksum=True,
+    verbose=True,
+)
+
+for resp in r:
+    resp.raise_for_status()
+    print(f"  ✓ {resp.url}")
+EOF
+
 echo "[✓] Upload complete"
 echo "👉 https://archive.org/details/$ITEM_NAME"
