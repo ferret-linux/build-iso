@@ -74,7 +74,7 @@ export IA_ACCESS_KEY_ID="${IA_ACCESS_KEY}"
 export IA_SECRET_ACCESS_KEY="${IA_SECRET_KEY}"
 
 # ── Random Sleep to prevent spam/rate-limit ──────────────
-sleep $(( RANDOM % 540 + 60 ))
+sleep $(( RANDOM % 240 + 60 ))
 # ── Cleanup old files ────────────────────────────────────
 echo "[*] Cleaning up old files from IA item..."
 ia --config-file=/dev/null delete "$ITEM_NAME" --all 2>/dev/null || true
