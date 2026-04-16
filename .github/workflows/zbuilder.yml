@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 2
       matrix:
         distro: [zcore, zynori, zykron]
         type: [bootc, nvidia]
