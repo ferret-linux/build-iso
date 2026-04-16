@@ -102,7 +102,7 @@ r = item.upload(
     metadata={"title": f"{distro} {type_}", "mediatype": "software"},
     retries=5,
     retries_sleep=30,
-    request_kwargs={"timeout": 3600},
+    request_kwargs={"timeout": 9000},
     checksum=True,
     verbose=True,
 )
