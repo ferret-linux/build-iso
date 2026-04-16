@@ -73,10 +73,6 @@ echo "[✓] ISO + checksum ready"
 export IA_ACCESS_KEY_ID="${IA_ACCESS_KEY}"
 export IA_SECRET_ACCESS_KEY="${IA_SECRET_KEY}"
 
-# ── Cleanup old files ────────────────────────────────────
-echo "[*] Cleaning up old files from IA item..."
-ia --config-file=/dev/null delete "$ITEM_NAME" --all 2>/dev/null || true
-
 # ── Archive upload ───────────────────────────────────────
 echo "[*] Uploading to Internet Archive..."
 
@@ -104,6 +100,7 @@ r = item.upload(
     retries_sleep=30,
     request_kwargs={"timeout": 9000},
     checksum=True,
+    overwrite=True,
     verbose=True,
 )
 
@@ -114,3 +111,5 @@ EOF
 
 echo "[✓] Upload complete"
 echo "👉 https://archive.org/details/$ITEM_NAME"
+echo "[✓] Direct download link"
+echo "👉 https://archive.org/download/$ITEM_NAME/$ISO_NAME"
