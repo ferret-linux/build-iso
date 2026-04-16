@@ -91,13 +91,13 @@ checksum = "${CHECKSUM_NAME}"
 config = {"s3": {"access": access, "secret": secret}}
 
 session = ia.get_session(config=config)
-item = session.get_item(item_name)
+item = session.get_item(item_name, request_kwargs={"timeout": 60})
 
 r = item.upload(
     [iso, checksum],
     metadata={"title": f"{distro} {type_}", "mediatype": "software"},
-    retries=5,
-    retries_sleep=30,
+    retries=10,
+    retries_sleep=60,
     request_kwargs={"timeout": 9000},
     checksum=True,
     verbose=True,
