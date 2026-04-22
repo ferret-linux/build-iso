@@ -44,7 +44,7 @@ echo "    Image  : $IMAGE"
 sudo bluebuild generate-iso \
   --platform=linux/amd64 \
   --iso-name="$ISO_NAME" \
-  --secure-boot-url="https://github.com/zodium-project/zcore-bootc/raw/refs/heads/stable/files/mok-file/etc/pki/akmods/certs/zodium-mok.der" \
+  --secure-boot-url="https://github.com/zodium-project/packages/raw/refs/heads/main/zodium-settings/assets/etc/pki/akmods/certs/zodium-mok.der" \
   --enrollment-password="zodium" \
   --variant="kinoite" \
   --verbose \
