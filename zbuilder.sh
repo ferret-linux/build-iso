@@ -46,7 +46,7 @@ sudo bluebuild generate-iso \
   --iso-name="$ISO_NAME" \
   --secure-boot-url="https://github.com/zodium-project/packages/raw/refs/heads/main/zodium-settings/assets/etc/pki/akmods/certs/zodium-mok.der" \
   --enrollment-password="zodium" \
-  --variant="kinoite" \
+  --variant="server" \
   --verbose \
   image "$IMAGE"
 
